@@ -1,0 +1,30 @@
+# Usa uma versão fixa e estável do Miniconda
+FROM continuumio/miniconda3:24.3.0-0
+
+# Evita prompts durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala git e dependências do CAT
+RUN apt-get update && apt-get install -y git && \
+    rm -rf /var/lib/apt/lists/*
+
+# Instala ferramentas dependentes
+RUN conda install -c bioconda \
+    diamond \
+    bwa \
+    prodigal \
+    samtools \
+    -y && \
+    conda clean -afy
+
+# Baixa o CAT
+RUN git clone https://github.com/lbl-cbg/CAT.git /opt/CAT
+
+# Coloca o executável do CAT no PATH global
+ENV PATH="/opt/CAT/CAT_pack:$PATH"
+
+# Diretório de trabalho
+WORKDIR /data
+
+# Executável padrão
+ENTRYPOINT ["CAT_pack"]

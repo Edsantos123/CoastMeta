@@ -1,0 +1,15 @@
+# Usa uma versão fixa e estável do Miniconda
+FROM continuumio/miniconda3:24.3.0-0
+
+# Evita prompts durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala o kaiju a partir dos canais oficiais
+RUN conda install -c bioconda kaiju -y && \
+    conda clean -afy
+
+# Cria um diretório de trabalho
+WORKDIR /data
+
+# Define o executável padrão (ao rodar o container, executa o kaiju)
+ENTRYPOINT ["kaiju"] 

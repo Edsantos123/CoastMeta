@@ -1,0 +1,12 @@
+FROM continuumio/miniconda3
+
+ENV DEBIAN_FRONTEND=noninteractive
+
+RUN wget https://github.com/cmks/DAS_Tool/blob/master/src/Contigs2Bin_to_Fasta.sh \
+    -O /usr/local/bin/Contigs2Bin_to_Fasta.sh && \
+    chmod +x /usr/local/bin/Contigs2Bin_to_Fasta.sh
+
+RUN conda install -c conda-forge -c bioconda das_tool=1.1.7 -y && \
+    conda clean -afy
+
+WORKDIR /data

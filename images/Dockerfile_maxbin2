@@ -1,0 +1,15 @@
+# Usa uma versão fixa e estável do Miniconda
+FROM continuumio/miniconda3
+
+# Evita prompts durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala o Maxbin a partir dos canais oficiais
+RUN conda install -c conda-forge -c bioconda maxbin2=2.2.7  -y && \
+    conda clean -afy
+
+# Cria um diretório de trabalho
+WORKDIR /data_assembly
+
+# Define o executável padrão (ao rodar o container, executa o Maxbin)
+ENTRYPOINT ["run_MaxBin.pl"] 

@@ -1,0 +1,26 @@
+# Resultados da pipeline
+output/
+
+# Dados de sequenciamento
+*.fastq
+*.fastq.gz
+*.fq
+*.fq.gz
+
+# Arquivos de referência locais
+host.fasta
+
+# Imagens/diagramas gerados
+dag.png
+
+# Arquivo estranho/temporário
+?
+
+# Logs
+*.log
+
+# Arquivos temporários
+*.tmp
+
+# Diretório do Snakemake
+.snakemake/

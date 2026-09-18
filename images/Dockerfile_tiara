@@ -1,0 +1,18 @@
+# Usa uma versão fixa e estável do Miniconda
+FROM continuumio/miniconda3:24.3.0-0
+
+# Evita prompts durante a instalação
+ENV DEBIAN_FRONTEND=noninteractive
+
+# Instala o FastQC a partir dos canais oficiais
+RUN conda create -n tiara_env -c conda-forge tiara=1.0.3 python=3.8 -y && \
+    conda clean -afy
+
+#Path global 
+ENV PATH=/opt/conda/envs/tiara_env/bin:$PATH
+
+# Cria um diretório de trabalho
+WORKDIR /data
+
+# Define o executável padrão (ao rodar o container, executa o tiara)
+ENTRYPOINT ["tiara"] 

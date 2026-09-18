@@ -1,0 +1,91 @@
+r1: "teste_reads/sub_R1_SRR5788180_1.fastq.gz"
+r2: "teste_reads/sub_R2_SRR5788180_2.fastq.gz"
+
+outdir: "output"
+
+use_fastp: true
+
+fastp:
+  cut_q: 25
+  min_len: 80
+  max_unqual_pct: 40
+  detect_adapter: true
+  threads: 1
+
+megahit:
+  k_list: "21,41,141"
+  min_contig: 1000
+  threads: 4
+
+bwa:
+  threads: 3
+  seed_length: 19
+  mismatch_penalty: 4
+  mark_secondary: true
+
+use_repair: true
+
+repair:
+  threads: 4
+  memory: 4g
+
+use_host_removal: false
+host_fasta: "host.fasta"
+
+depth:
+  min_mapq: 10
+  percent_identity: 97
+
+binning:
+  tools:
+    - metabat2
+    - maxbin2
+    - dastool
+  metabat2:
+    min_contig: 1500
+    min_bin_size: 200000
+    seed: 123
+    unbinned: true
+    min_cv: 0.5
+    min_cvsun: 0.5
+    maxp: 98
+    mins: 50
+    min_small_contig: 1000
+
+  maxbin2:
+     min_contig: 500
+     threads: 4
+
+  dastool:
+    threads: 4
+    score_threshold: 0.5
+
+tiara:
+  threads: 2
+  min_len: 1000
+  prob_cutoff: "0.50 0.50"
+  probabilities: true
+
+kaiju:
+  database: "/mnt/d/coastmeta/database/kaiju/kaiju_db_fungi.fmi"
+  nodes: "/mnt/d/coastmeta/database/kaiju/nodes.dmp"
+  names: "/mnt/d/coastmeta/database/kaiju/names.dmp"
+  threads: 4
+  rank: "genus"
+  use_unclassified: true
+
+cat_bat:
+  database: "/mnt/d/coastmeta/database/cat_bat/20231120_CAT_gtdb"
+  #taxonomy_folder: "/mnt/d/coastmeta/database/cat_bat/20231120_CAT_gtdb/tax" 
+  threads: 4
+  cat:
+    range: 10
+    fraction: 0.50
+  bat:
+    range: 5
+    fraction: 0.30
+    bin_suffix: ".fna"
+  diamond:
+    index_chunks: 4
+    block_size: 4
+    sensitive: false
